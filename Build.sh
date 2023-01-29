@@ -35,7 +35,9 @@ make)
 
 
 if [ "${Command}" = "run" ]; then
-    qemu-system-x86_64 -drive format=raw,file=${BinBootloader}
+    dd if=/dev/zero of=disk.img count=1008 bs=512
+    dd if=${BinBootloader} of=disk.img conv=notrunc
+    qemu-system-x86_64 disk.img 
 elif [ "${Command}" = "" ]; then
     echo "No Command"
 fi
