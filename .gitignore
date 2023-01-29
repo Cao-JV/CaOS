@@ -1,5 +1,6 @@
-CMakeFiles
+CMakeFiles/
 *.o
 *.a
 *.bin
-
+Make/
+disk.img
