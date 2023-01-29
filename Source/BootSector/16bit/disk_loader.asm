@@ -13,11 +13,12 @@
 disk_load:
     Pusha                   ; Save all the (4 of the) registers
     Push BX                 ; Do extra BX stack save
-    
+    Cmp DL, 0x0000 
+    Je disk_load.simple_read  
     Mov BX, 0x55AA          ; Save extensions ID as param in BX
     Mov AH, 0x41            ; Set disk utils extension check function
     Int 0x13                ; Raise int to execute extension check function
-    Jc disk_load.error      ; Jump on error
+    Jc disk_load.extensions_error      ; Jump on error
   
     Cmp BX, 0xAA55          ; Is BX still the extensions ID?
     Jnz  disk_load.extensions_missing
@@ -25,13 +26,12 @@ disk_load:
     Mov BX, msg_extensions_present  ; Save extensions detected message as param to BX
     Call bios_print         ; Print to Screen
 
-
+    .simple_read
     Pop BX                  ; Restore BX to calling value
- ;   Call bios_print_hex
     Push DX 
 
     Mov AH, 0x02            ; BIOS Disk Read function
-    Mov AL, DH             ; Disk Read expects # of sectors to read to be in AL, disk_load params are in DX
+    Mov AL, DH              ; Disk Read expects # of sectors to read to be in AL, disk_load params are in DX
     Mov CH, 0x00            ; Disk Read Expects Cylinder # to read from
     Mov DH, 0x00            ; Disk Read Expects Cylinder Head # to read with
     Mov CL, 0x02            ; Need to read from next sector on
@@ -52,8 +52,10 @@ disk_load:
 
     .extensions_missing:
         Mov BX, msg_extensions_missing ; Save extensions missing messge as param to BX
-        call bios_print                ; Write it to screen
-    
+        Call bios_print                ; Write it to screen
+    .extensions_error:
+        Mov BX, msg_extensions_missing ; Save extensions missing messge as param to BX
+        Call bios_print
     ; Fuck up handling
     .error:
         Mov BX, msg_fail    ; Put Failure Message into Register BX
