@@ -16,6 +16,8 @@
 Mov BX, boot_msg                ; Save boot message as param to register BX
 call bios_print                 ; Call the print function
 
+Mov BX, [boot_ver]              ; Save boot version as param to register BX
+call bios_print_hex             ; Call the hex number printer
 boot_loader_neverends: Jmp $	; Tells the Code to just keep loading this instruction. Ad inifinitum.
 
 
@@ -23,10 +25,11 @@ boot_loader_neverends: Jmp $	; Tells the Code to just keep loading this instruct
 
 ; Inclusivity
 %INCLUDE 'Source/BootSector/16bit/print_service.asm'
+%INCLUDE 'Source/BootSector/16bit/printhex_service.asm'
 
-; Data Delcarations
-boot_msg: DB `\r\n`, 250, 254, `[Cao OS]`,254, 250, `\r\n`,0 ; Start-up Message
-
+; Data 
+boot_msg: DB `\r\n`, 250, 254, `[Cao OS]`,254, 250, `\r\nv`,0 ; Start-up Message
+boot_ver: DW 0x010A
 
 
 ; A boot loader must be in Cylinder 0, Head 0, Sector 1, occupy the entirety & identify as bootloader
