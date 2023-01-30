@@ -21,7 +21,7 @@ FileNameSrcBoot="${ProjectNameBoot}.asm"
 FileNameObjBoot="${FileNameSrcBoot}.o"
 
 # Directories
-DirRoot="/home/cao/Development/C/c/"
+DirRoot="/home/cao/Development/C/CaOS/"
 DirBuild="${DirRoot}Make/"
 DirCMake="${DirBuild}/CMakeFiles/"
 DirBootOutput="${DirCMake}${FileNameBinBoot}.dir/Source/BootSector/"
