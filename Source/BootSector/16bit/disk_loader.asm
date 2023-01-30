@@ -1,8 +1,8 @@
-; BIOS routine to load a file from disk to memory
+; CaOS
+; BIOS BIOS (Real Mode/16bit) disk routines 
+; A collection of disk-related utilities useful to booting a system
 ;
-; Cao Smith 2023
-; Part of CaoOS: An X86-64 Toy System
-
+; CopyRight (c) 2023, Cao Smith
 [BITS 16]                   ; Always show your bits, avoids ambiguity
 
 

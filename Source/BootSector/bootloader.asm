@@ -1,7 +1,7 @@
-; BIOS based BootLoader
+; CaOS
+; BIOS (Real/Protected/Long Mode/16/32/64bit) Bootloader
 ;
-; Cao Smith 2023
-; Part of CaoOS: An X86-64 Toy System
+; CopyRight (c) 2023, Cao Smith
 
 %define Origin 0X7C00          ; Define Origin of BootLoader in Memory
 
@@ -64,7 +64,12 @@ boot_loader_neverends: Jmp $	; Tells the Code to just keep loading this instruct
 %INCLUDE 'Source/BootSector/16bit/printhex_service.asm'     ; Hex number printing funciton
 %INCLUDE 'Source/BootSector/16bit/disk_loader.asm'          ; Disk loading function
 
-; Global Variables 
+; A boot loader must be in Cylinder 0, Head 0, Sector 1, occupy the entirety & identify as bootloader
+Times 510 - ($ - $$) DB 0x00 ; Pad program to place magic number where expected (Byte 510 to Byte 512)
+boot_code: DW 0xAA55         ; Magic Number - this differentiates bootloader from random files
+
+; Global Variables this will spill out past the Bootloader code, allowing it to grow
+; Beyond the 1 sector confines of the bootloader.
 msg_boot_ver:       DW 0x010A
 msg_boot_start:     DB `\r\n`, 250, 254, `[Cao OS]`,254, 250, `\r\n`,0 ; Start-up Message
 msg_kernel_load:    DB `\r\nLoading Kernel from drive: `, 0
@@ -75,9 +80,7 @@ offset_stack:       EQU 0x4000      ; Where to place stack (* Grows Down *)
 byte_num_sectors:   EQU 5           ; How many disk sectors to load
 word_sector_size    EQU 512         ; Size of sectors in bytes
 
-; A boot loader must be in Cylinder 0, Head 0, Sector 1, occupy the entirety & identify as bootloader
-Times 510 - ($ - $$) DB 0x00 ; Pad program to place magic number where expected (Byte 510 to Byte 512)
-boot_code: DW 0xAA55         ; Magic Number - this differentiates bootloader from random files
+
 
 ; Make bootloader artifically big enough to fill target sectors to test
 Times 256 DW 0xA7C7
