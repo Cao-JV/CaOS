@@ -1,8 +1,8 @@
-; BIOS routine to load a file from disk to memory
+; CaOS
+; BIOS BIOS (Real Mode/16bit) disk routines 
+; A collection of disk-related utilities useful to booting a system
 ;
-; Cao Smith 2023
-; Part of CaoOS: An X86-64 Toy System
-
+; CopyRight (c) 2023, Cao Smith
 [BITS 16]                   ; Always show your bits, avoids ambiguity
 
 
@@ -23,7 +23,7 @@ disk_load:
     Cmp BX, 0xAA55          ; Is BX still the extensions ID?
     Jnz  disk_load.extensions_missing
 
-    Mov BX, msg_extensions_present  ; Save extensions detected message as param to BX
+    Mov BX, msg_yes  ; Save extensions detected message as param to BX
     Call bios_print         ; Print to Screen
 
     .simple_read
@@ -51,10 +51,10 @@ disk_load:
     Ret                     ; Blow this popsicle stand
 
     .extensions_missing:
-        Mov BX, msg_extensions_missing ; Save extensions missing messge as param to BX
+        Mov BX, msg_no ; Save extensions missing messge as param to BX
         Call bios_print                ; Write it to screen
     .extensions_error:
-        Mov BX, msg_extensions_missing ; Save extensions missing messge as param to BX
+        Mov BX, msg_no ; Save extensions missing messge as param to BX
         Call bios_print
     ; Fuck up handling
     .error:
@@ -71,5 +71,5 @@ disk_load:
     msg_success: db `Loaded!\r\n`,0
     msg_fail: db `\r\nFailed to load Kernel!\r\n`,0
 
-    msg_extensions_present: db `Disk functions present`,0
-    msg_extensions_missing: db `Disk functions mising`,0
+    msg_yes: db `Disk functions present`,0
+    msg_no: db `Disk functions mising`,0

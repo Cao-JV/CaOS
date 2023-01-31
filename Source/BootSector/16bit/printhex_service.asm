@@ -1,7 +1,7 @@
-; BIOS based number printing Service
+; CaOS
+; BIOS (Real Mode/16bit) Numeric Hex Teletype routine
 ;
-; Cao Smith 2023
-; Part of CaoOS: An X86-64 Toy System
+; CopyRight (c) 2023, Cao Smith
 
 ; Address length will be 16 when invoked (at boot time)
 [BITS 16]
