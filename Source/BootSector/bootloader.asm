@@ -55,6 +55,7 @@ boot_loader_neverends: Jmp $	; Tells the Code to just keep loading this instruct
 %INCLUDE 'Source/BootSector/16bit/print_service.asm'        ; Print function
 %INCLUDE 'Source/BootSector/16bit/printhex_service.asm'     ; Hex number printing funciton
 %INCLUDE 'Source/BootSector/16bit/disk_service.asm'         ; Disk loading function
+%INCLUDE 'Source/BootSector/32bit/gdt32.asm'
 ; Global Variables this will spill out past the Bootloader code, allowing it to grow
 ; Beyond the 1 sector confines of the bootloader.
 msg_boot_ver        : DB `v0.01`,224,225,0
