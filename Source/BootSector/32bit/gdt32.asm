@@ -62,18 +62,18 @@
 ;   TYPE   - Segment Type
 
 ; Memory place holder
-general_descriptor_table:
+global_descriptor_table:
     .invlaid:        ; Define an invalid descriptor entry
         DD 0x0       ; Define a null double word
         DD 0x0       ; 8 bytes' worth
 
     .code_segment:   ; Code segment descriptor
         DW 0xFFFF    ; LIMIT (0-15)
-        DW 0x0       ; BASE  (0-15)
-        DW 0x0       ; BASE (16-23)
-        DB 10011010b ; (SG PRS 0)(DSC LV 00) (TYPE 1) (24-27)
+        DW 0x000     ; BASE  (0-15)
+        DB 0x0       ; BASE (16-23)
+        DB 0b10011010 ; (SG PRS 0)(DSC LV 00) (TYPE 1) (24-27)
                      ; TYPE FLAGS: (CODE 1)(CONFORMING 0)(READABLE 1)(ACCESSED 0) (28-31)
-        DB 11001111b ; (GRANUL 1)(OP SZE 1)(64BIT 0)(AVAIL 0)
+        DB 0b11001111 ; (GRANUL 1)(OP SZE 1)(64BIT 0)(AVAIL 0)
                      ; LIMIT (16-19)
         DB 0x0       ; BASE (24-31)
     .data_segment:   ; the Data Segment Descriptor
@@ -81,17 +81,17 @@ general_descriptor_table:
         DW 0xFFFF    ; LIMIT (0-15)
         DW 0x0       ; BASE  (0-15)
         DB 0x0       ; BASE  (16-23)
-        DB 10010010b ; (SG PRS 0)(DSC LV 00) (TYPE 1) (24-27)
+        DB 0b10010010 ; (SG PRS 0)(DSC LV 00) (TYPE 1) (24-27)
                      ; TYPE FLAGS: (CODE 0)(CONFORMING 0)(READABLE 1)(ACCESSED 0) (28-31)
-        DB 11001111b ; (GRANUL 1)(OP SZE 1)(64BIT 0)(AVAIL 0)
+        DB 0b11001111 ; (GRANUL 1)(OP SZE 1)(64BIT 0)(AVAIL 0)
                      ; LIMIT (16-19)
         DB 0x0       ; BASE (24-31)
     .end:            ; Used for size calculations
 
-general_descriptor_table_descriptor:
-    DW general_descriptor_table.end - general_descriptor_table  -1  ; Size of GDT minus 1
-    DD general_descriptor_table                                     ; General Descriptor Table address
+global_descriptor_table_descriptor:
+    DW global_descriptor_table.end - global_descriptor_table  - 1  ; Size of GDT minus 1
+    DD global_descriptor_table                                     ; General Descriptor Table address
 
 ; DATA
-CODE_SEGMENT EQU general_descriptor_table.code_segment - general_descriptor_table
-DATA_SEGMENT EQU general_descriptor_table.data_segment - general_descriptor_table
+CODE_SEGMENT EQU global_descriptor_table.code_segment - global_descriptor_table
+DATA_SEGMENT EQU global_descriptor_table.data_segment - global_descriptor_table
