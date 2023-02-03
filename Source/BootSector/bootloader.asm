@@ -53,19 +53,7 @@ boot_loader_neverends: Jmp $	; Tells the Code to just keep loading this instruct
 %INCLUDE 'Source/BootSector/16bit/print_service.asm'        ; Print function
 %INCLUDE 'Source/BootSector/16bit/printhex_service.asm'     ; Hex number printing funciton
 %INCLUDE 'Source/BootSector/16bit/disk_service.asm'         ; Disk loading function
-%INCLUDE 'Source/BootSector/32bit/print32.asm'
-%INCLUDE 'Source/BootSector/protected_mode.asm'
 %INCLUDE 'Source/BootSector/32bit/gdt32.asm'
-
-
-
-; 32 Bit Journey
-[bits 32]
-protected_load:
-    Mov EBX, msg_boot_start_begin
-    Call print32
-
-Jmp $
 
 
 ; Global Variables this will spill out past the Bootloader code, allowing it to grow
@@ -82,6 +70,17 @@ word_sector_size    : EQU 512         ; Size of sectors in bytes
 ; A boot loader must be in Cylinder 0, Head 0, Sector 1, occupy the entirety & identify as bootloader
 Times 510 - ($ - $$) DB 0x00 ; Pad program to place magic number where expected (Byte 510 to Byte 512)
 boot_code: DW 0xAA55         ; Magic Number - this differentiates bootloader from random files
+
+; Protected Mode (32bit) boot
+[bits 32]
+protected_boot:
+    Mov EBX, msg_boot_start_begin
+    Call print32
+
+Jmp $
+
+%INCLUDE 'Source/BootSector/32bit/print32.asm'
+%INCLUDE 'Source/BootSector/protected_mode.asm'
 
 
 ; Make bootloader artifically big enough to fill target sectors to test

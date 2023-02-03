@@ -28,4 +28,4 @@ protected_mode_init:
         Mov EBP, 0x9000 ; Set Stack Base Pointer Memory Address Location
         Mov ESP, EBP     ; Set Stack current pointer Memory Address Location to Base
 
-        Call CODE_SEGMENT:protected_load
+        Call CODE_SEGMENT:protected_boot
