@@ -44,6 +44,7 @@ boot_code: DW 0xAA55            ; Magic Number - this differentiates bootloader 
  
 Times 512 - ($ - boot_protected) db 0xCA
 
+
 ; Boot Sector 3
 Times 256 DW 0xA7C7
 ; Boot Sector 4

@@ -19,7 +19,7 @@ enable_protected_mode:
 [bits 32]
 protected_mode_init:
         ; Set segment registers to point at the new 32bit Data Segment
-         Mov EAX, DATA_SEGMENT                
+         Mov EAX, DATA_SEGMENT_PROTECTED_MODE                
          Mov DS, EAX
          Mov SS, EAX
          Mov ES, EAX

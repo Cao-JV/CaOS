@@ -12,6 +12,6 @@ boot_protected:
 jmp $
 
 %INCLUDE 'Source/BootSector/32bit/print_protected_service.asm'
-
+%INCLUDE 'Source/BootSector/64bit/gdt_long.asm'
 ;Data 32bit
 msg_protected_mode: DB `32bit Protected Mode loaded\r\n`, 0
