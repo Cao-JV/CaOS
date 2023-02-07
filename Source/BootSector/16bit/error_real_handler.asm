@@ -8,13 +8,13 @@
 ; Params:
 ; AH - Error Code
 ; BX - Message to Display
-
+[BITS 16]
 error:
     Mov BX, [error_message] ; Save error_message as param in BX register
-    Call bios_print         ; Print the message
+    Call print_real         ; Print the message
     Xor BX, BX              ; Clear BX Register
     Mov BH, AH              ; Save AH as a param in the BH register
-    Call bios_print_hex     ; Print that value
+    Call printhex_real     ; Print that value
     .fucked_up: Jmp $       ; Ponder life choices
 
 ; Data

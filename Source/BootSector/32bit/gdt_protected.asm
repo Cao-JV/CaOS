@@ -62,8 +62,8 @@
 ;   TYPE   - Segment Type
 
 ; Memory place holder
-global_descriptor_table:
-    .invlaid:        ; Define an invalid descriptor entry
+global_descriptor_table_protected_mode:
+    .invalid:        ; Define an invalid descriptor entry
         DD 0x0       ; Define a null double word
         DD 0x0       ; 8 bytes' worth
 
@@ -88,10 +88,10 @@ global_descriptor_table:
         DB 0x0       ; BASE (24-31)
     .end:            ; Used for size calculations
 
-global_descriptor_table_descriptor:
-    DW global_descriptor_table.end - global_descriptor_table  - 1  ; Size of GDT minus 1
-    DD global_descriptor_table                                     ; General Descriptor Table address
+global_descriptor_table_descriptor_protected_mode:
+    DW global_descriptor_table_protected_mode.end - global_descriptor_table_protected_mode  - 1  ; Size of GDT minus 1
+    DD global_descriptor_table_protected_mode                                     ; General Descriptor Table address
 
 ; DATA
-CODE_SEGMENT EQU global_descriptor_table.code_segment - global_descriptor_table
-DATA_SEGMENT EQU global_descriptor_table.data_segment - global_descriptor_table
+CODE_SEGMENT_PROTECTED_MODE EQU global_descriptor_table_protected_mode.code_segment - global_descriptor_table_protected_mode
+DATA_SEGMENT EQU global_descriptor_table_protected_mode.data_segment - global_descriptor_table_protected_mode

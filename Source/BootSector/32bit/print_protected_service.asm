@@ -10,7 +10,7 @@
 ; Two bytes are needed to display on screen
 ; Character to print (ASC)
 ; Text Attributes
-print32:    
+print_protected:    
     Pusha   ; Save the registers to the stack
     Mov EDX, WORD_VID_MEM   ; Cue EDX to begining of Video Memory Segment
 
@@ -18,7 +18,7 @@ print32:
         Mov AL, [EBX]               ; Set AL Register to current value at EBX memory address
         
         Cmp AL, 0                   ; Is AL 0?
-        Je print32.end              ; End the function
+        Je print_protected.end      ; End the function
 
         Mov AH, BYTE_CLASSIC_COLOUR ; Set AH Register to text attributes 
         Mov [EDX], AX               ; Set Video memory address EDX value to AX values
@@ -26,7 +26,7 @@ print32:
         Add EBX, 1                  ; Advance EBX memory location to next Character to print
         Add EDX, 2                  ; Advance Video Memory Address Location to next Character Cell (remember to skip attribute byte)
 
-        Jmp print32.loop            ; Stuck in the cycle
+        Jmp print_protected.loop            ; Stuck in the cycle
     .end:
         Popa                        ; Restore registers from Stack
         RET                         ; Blow this popsicle
