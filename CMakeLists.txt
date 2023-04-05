@@ -12,7 +12,7 @@ set(CMAKE_C_STANDARD_REQUIRED True)
 
 # specify the C++ params
 set(CMAKE_CXX_COMPILER /usr/bin/clang++-15)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Set the boostrap as our first project to build
